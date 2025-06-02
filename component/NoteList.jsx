@@ -1,27 +1,37 @@
 import React from 'react';
 import NoteCard from './NoteCard';
+import { useLanguage } from '../src/contexts/LanguageContext';
 import PropTypes from 'prop-types';
 
-function NoteList ({ notes, onDelete, onArchive, archived, onUnarchive }) {
+function NoteList({ notes, onDelete, onArchive, archived, onUnarchive }) {
+  const { getText } = useLanguage();
+
   return (
-    <div id='activeNote'>
-      {notes.length ? (
-        notes.map(note => (
-          <NoteCard
-            key={note.id}
-            note={note}
-            onDelete={onDelete}
-            onArchive={onArchive}
-            onUnarchive={onUnarchive}
-          />
-        ))
+    <div className="note-list-container">
+      {notes.length > 0 ? (
+        <div className="note-grid">
+          {notes.map(note => (
+            <NoteCard
+              key={note.id}
+              note={note}
+              onDelete={onDelete}
+              onArchive={onArchive}
+              onUnarchive={onUnarchive}
+            />
+          ))}
+        </div>
       ) : (
-        <p>{archived ? 'Arsip Kosong' : 'Tidak ada catatan'}</p>
+        <div className="empty-state">
+          <p className="empty-message">
+            {archived ? getText('emptyArchive') : getText('emptyNotes')}
+          </p>
+        </div>
       )}
     </div>
-  )
-};
+  );
+}
 
+// PropTypes untuk validasi props
 NoteList.propTypes = {
   notes: PropTypes.arrayOf(
     PropTypes.shape({

@@ -1,34 +1,69 @@
-import React from "react";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function RegisterPage () {
+function RegisterPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('https://notes-api.dicoding.dev/v1/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Registrasi gagal');
+      } else {
+        alert('Registrasi berhasil! Silakan login.');
+        navigate('/login');
+      }
+    } catch (err) {
+      setError('Terjadi kesalahan jaringan.');
+    }
+  };
+
   return (
-    <section>
+    <div>
       <h2>Register</h2>
-      <form>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input id="name" type="text" placeholder="Your name" />
-        </div>
-
-        <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com" />
-        </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" placeholder="Your password" />
-        </div>
-
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input id="confirmPassword" type="password" placeholder="Repeat password" />
-        </div>
-
-        <button type="submit">Register</button>
+      <form onSubmit={handleRegister}>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <input
+          type="text"
+          placeholder="Nama"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        /><br/>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        /><br/>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        /><br/>
+        <button type="submit">Daftar</button>
       </form>
-    </section>
-  )
-};
+      <p>Sudah punya akun? <Link to="/login">Masuk di sini</Link></p>
+    </div>
+  );
+}
 
 export default RegisterPage;

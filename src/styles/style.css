@@ -1,9 +1,124 @@
+/* Default dark mode */
 body {
   background-color: #0f0f0f;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+}
+
+h1, h2, h3 {
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  max-width: 600px;
+  background-color: #1f1f1f; 
+  color: white;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+button {
+  background-color: #1f1f1f; 
+  color: white;
+  border: 1px solid #444;
+  padding: 0.4rem 1rem;
+  margin: 0.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+.note-card {
+  background-color: #1a1a1a; 
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 5px;
+  width: 300px;
+}
+
+/* Light Mode Styles */
+body.light {
+  background-color: #f0f2f5; 
+  color: #333333;     
+}
+
+body.light h1,
+body.light h2,
+body.light h3 {
+  border-color: #e0e0e0; 
+}
+
+body.light input[type="text"],
+body.light textarea {
+  background-color: #ffffff; 
+  color: #333333;
+  border-color: #cccccc;
+}
+
+body.light input[type="text"]::placeholder,
+body.light textarea::placeholder {
+  color: #888;
+}
+
+body.light button {
+  background-color: #e0e0e0; 
+  color: #333333;
+  border-color: #cccccc;
+}
+
+body.light button:hover {
+  background-color: #d0d0d0;
+}
+
+body.light button.btn-delete { 
+  background-color: #ef5350; 
+  border-color: #ef5350;
+  color: white;
+}
+body.light button.btn-delete:hover {
+  background-color: #d32f2f;
+}
+
+body.light .note-card {
+  background-color: #ffffff; 
+  border: 1px solid #e0e0e0;
+}
+
+body.light .note-card small {
+    color: #666;
+}
+
+button:first-of-type { 
+  background-color: #b00020;
+  border-color: #b00020;
+}
+
+button:first-of-type:hover {
+  background-color: #d32f2f;
+}
+
+button:last-of-type { 
+  background-color: #fbc02d;
+  border-color: #fbc02d;
+  color: black;
+}
+
+button:last-of-type:hover {
+  background-color: #fdd835;
 }
 
 h1, h2, h3 {
@@ -102,7 +217,21 @@ input[type="text"] {
 
 #nav {
   display: flex;
+  flex-direction: column-reverse;
+}
+
+.nav-links {
+  display: flex;
   justify-content: space-between;
+}
+
+.nav-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-toggle {
+  display: flex;
 }
 
 /* Color variants for buttons */

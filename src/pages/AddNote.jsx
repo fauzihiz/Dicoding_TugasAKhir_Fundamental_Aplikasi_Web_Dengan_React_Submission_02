@@ -2,35 +2,56 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Nav from '../../component/Nav';
 import PropTypes from 'prop-types';
+import { useAuth } from '../contexts/AuthContext';
 
 function AddNote({ onAdd }) {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { token } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newNote = {
-      id: `notes-${+new Date()}`,
-      title: title || '(untitled)',
-      body,
-      archived: false,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const res = await fetch('https://notes-api.dicoding.dev/v1/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: title || '(untitled)',
+          body,
+        }),
+      });
 
-    onAdd(newNote);      
-    setTitle('');        
-    setBody('');
-    navigate('/home');   
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Gagal menambahkan catatan');
+        return;
+      }
+
+      if (onAdd) onAdd(data.data);
+      setTitle('');
+      setBody('');
+      navigate('/home');
+    } catch (err) {
+      console.error('Error adding note:', err);
+      setError('Terjadi kesalahan saat menambahkan catatan.');
+    }
   };
 
   return (
     <div>
-      <Link to='/home'>
+      <Link to="/home">
         <h1>Personal Notes</h1>
       </Link>
       <Nav />
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <input
@@ -53,7 +74,7 @@ function AddNote({ onAdd }) {
 }
 
 AddNote.propTypes = {
-  onAdd: PropTypes.func.isRequired,
+  onAdd: PropTypes.func, 
 };
 
 export default AddNote;
