@@ -7,7 +7,7 @@ import LanguageToggle from "./LanguageToggle";
 
 function Nav() {
   const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
   const { getText } = useLanguage();
 
@@ -42,6 +42,14 @@ function Nav() {
           <LanguageToggle />
         </div>
 
+        {/* Display Username & Email */}
+        {user && ( 
+          <div className="user-info">
+            <span className="user-name">{user.name}</span> 
+            <span className="user-email">{user.email}</span>
+          </div>
+        )}
+      
         <button onClick={handleLogout} className="logout-btn">
           {getText('logout')}
         </button>

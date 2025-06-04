@@ -292,6 +292,11 @@ button:last-of-type:hover {
   grid-template-rows: 1fr;
 }
 
+.user-info {
+  display: flex;
+  gap: 25px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .note-grid {
