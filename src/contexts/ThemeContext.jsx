@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 const ThemeContext = createContext();
 
@@ -29,6 +30,11 @@ export function ThemeProvider({ children }) {
     </ThemeContext.Provider>
   );
 }
+
+// PropTypes untuk validasi props
+ThemeProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 // Hook
 export const useTheme = () => {
