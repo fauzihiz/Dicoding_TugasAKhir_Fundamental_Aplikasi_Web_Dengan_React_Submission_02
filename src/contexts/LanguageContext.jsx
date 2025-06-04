@@ -124,6 +124,11 @@ export function LanguageProvider({ children }) {
   );
 }
 
+// PropTypes untuk validasi props
+LanguageProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 // Hook
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
